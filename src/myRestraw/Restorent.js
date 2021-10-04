@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FoodApi from "../api/FoodApi";
 import Menu from "./MenuCard";
 import Navbar from "./Navbar";
+import { Router, Switch } from "react-router";
 
 const uniqCat = [...new Set(FoodApi.map(ele=>ele.category)),"All"];
 
@@ -23,9 +24,11 @@ const Restraw = () => {
 
     return(
         <>
+
         <Navbar uniqcat = {menuList} filterMenu = {filterMenu}/>
         <Menu foodApi = {foodapi}/>
-            
+
+       
         </>
     )
 }

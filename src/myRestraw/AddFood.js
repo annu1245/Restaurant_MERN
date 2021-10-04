@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react/cjs/react.development';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 
 const AddFood = () =>{
     const [myimg, setMyImg] = useState();
@@ -25,7 +26,10 @@ const AddFood = () =>{
         const img = e.target.files[0];
         setMyImg(img);
         
-    }   
+    }  
+    
+    const history = useHistory();
+    
     
     const SubmitForm = () =>{
         const {dish, category, description} = data;
@@ -43,7 +47,7 @@ const AddFood = () =>{
             }
         }
         axios.post('/store', formData, config)
-        .then(()=>console.log("data submitted"))
+        .then(()=>history.push('/'))
         .catch(err=>console.log(err))
     }
 

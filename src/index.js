@@ -5,13 +5,23 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import TestCard from './components/TestCard';
 import Restraw from './myRestraw/Restorent';
+import Menu from './components/Manu';
+import Header from './myRestraw/Header';
 import AddFood from './myRestraw/AddFood';
+
+import { BrowserRouter, Switch, Router, Route} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AddFood />
-  </React.StrictMode>,
+  // <React.StrictMode>
+    <BrowserRouter>
+    <Header/>
+      <Switch>
+        <Route exact path="/"  component={Restraw} />
+        <Route path="/add" component={AddFood} />
+      </Switch>
+    </BrowserRouter>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

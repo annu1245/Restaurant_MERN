@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const FoodSchema = new mongoose.Schema({
-    name: {
+    dish_name: {
         type: String,
         required: true,
       },
@@ -13,6 +13,10 @@ const FoodSchema = new mongoose.Schema({
     category : {
         type : String,
         required : true,
+    },
+    image_path:{
+        type : String,
+        required : true
     }
     
 
