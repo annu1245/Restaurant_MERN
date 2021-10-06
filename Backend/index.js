@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/FoodDB',
     useNewUrlParser: true,
   }
 );
-
+app.use(express.static('public'))
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/', route);

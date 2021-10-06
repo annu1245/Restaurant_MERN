@@ -87,6 +87,7 @@ const AddFood = () =>{
             <button onClick = {SubmitForm} class="btn btn-primary" type="button">Save</button>
         </div>
         </form>
+
         </div>
 
         </>

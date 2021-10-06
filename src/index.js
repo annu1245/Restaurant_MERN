@@ -2,12 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import App from './App';
-import TestCard from './components/TestCard';
 import Restraw from './myRestraw/Restorent';
-import Menu from './components/Manu';
 import Header from './myRestraw/Header';
 import AddFood from './myRestraw/AddFood';
+import DisplayFood from './myRestraw/DisplayFood';
 
 import { BrowserRouter, Switch, Router, Route} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
@@ -16,6 +14,7 @@ ReactDOM.render(
   // <React.StrictMode>
     <BrowserRouter>
     <Header/>
+    <DisplayFood/>
       <Switch>
         <Route exact path="/"  component={Restraw} />
         <Route path="/add" component={AddFood} />

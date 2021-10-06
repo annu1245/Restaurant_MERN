@@ -24,7 +24,7 @@ const Restraw = () => {
 
     return(
         <>
-
+        <h1>{foodapi[0].name}</h1>
         <Navbar uniqcat = {menuList} filterMenu = {filterMenu}/>
         <Menu foodApi = {foodapi}/>
 

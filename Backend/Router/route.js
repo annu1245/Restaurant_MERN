@@ -9,9 +9,13 @@ route.get('/', (req,res)=>{
 
 route.post('/store', async(req,res)=>{
     image = req.files.img;
-    location = './uploads/'+ image.name;
-
+    console.log(image)
+    image.mv('./public/images/' + image.name);
+    location = 'images/'+ image.name;
+    var cnt = await Food.collection.count();
+    console.log(cnt);
     const food = new Food({
+        dishId : cnt+1,
         dish_name : req.body.dish,
         description : req.body.description,
         category : req.body.category,
