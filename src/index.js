@@ -5,6 +5,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Restraw from './myRestraw/Restorent';
 import Header from './myRestraw/Header';
 import AddFood from './myRestraw/AddFood';
+import AdminLogin from './Auth/AdminLogin';
 import DisplayFood from './myRestraw/DisplayFood';
 
 import { BrowserRouter, Switch, Router, Route} from 'react-router-dom';
@@ -14,13 +15,13 @@ ReactDOM.render(
   // <React.StrictMode>
     <BrowserRouter>
     <Header/>
-    <DisplayFood/>
       <Switch>
         <Route exact path="/"  component={Restraw} />
         <Route path="/add" component={AddFood} />
+        <Route path="/adminLogin" component={AdminLogin} />
       </Switch>
     </BrowserRouter>,
-  // </React.StrictMode>,
+  //  </React.StrictMode>,
   document.getElementById('root')
 );
 

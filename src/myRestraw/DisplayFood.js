@@ -2,32 +2,50 @@ import { getDefaultNormalizer } from "@testing-library/dom";
 import React, { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
 import FoodCard from "./FoodCard";
-import axios from "axios";
+import Menu from "./MenuCard";
+import Navbar from "./Navbar";
 
 const DisplayFood = () => {
 
     const [myfood, setMyFood] = useState([]);
+    const [myFilterFodd, setMyFilterFood] = useState([]);
+
+
+
     useEffect(()=>{
         getFoodData();
-    })
+    },[])
 
 
     const getFoodData = async() => {
         const res = await fetch('/display')
         const mydata = await res.json();
         setMyFood(mydata);
+        setMyFilterFood(mydata);
+        
     }
-    
+    const uniqMenu = [...new Set( myfood.map(el=>el.category)), "All"]
 
     
+    const filterItem = (menuItem) => {
+      if (menuItem == "All"){
+        setMyFilterFood(myfood);
+        return;
+      }
+      const updatedMenu = myfood.filter((el)=>{
+        return el.category === menuItem;
+      })
+      console.log(updatedMenu)
+      setMyFilterFood(updatedMenu);
+    }
 
-    
     return(
         <>
+        <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
         <section className="main-card--cointainer">
 
         {
-            myfood.map((ele)=>{
+            myFilterFodd.map((ele)=>{
                 return(
                     <div className="card-container" key={ele._id}>
                     <div className="card ">

@@ -1,32 +1,49 @@
-import React, { useState } from "react";
-import FoodApi from "../api/FoodApi";
+import { getDefaultNormalizer } from "@testing-library/dom";
+import React, { useEffect } from "react";
+import { useState } from "react/cjs/react.development";
+import FoodCard from "./FoodCard";
 import Menu from "./MenuCard";
 import Navbar from "./Navbar";
-import { Router, Switch } from "react-router";
-
-const uniqCat = [...new Set(FoodApi.map(ele=>ele.category)),"All"];
 
 const Restraw = () => {
-    const [foodapi, setFoodApi] = useState(FoodApi);
-    const [menuList, setMenuList] = useState(uniqCat);
 
-    const filterMenu = (menu) => {
-        if(menu === "All"){
-            setFoodApi(FoodApi);
-            return;
-        }
-        const newMenu = FoodApi.filter((ele)=>{
-            return ele.category === menu;
-        });
-        setFoodApi(newMenu);
+    const [myfood, setMyFood] = useState([]);
+    const [myFilterFood, setMyFilterFood] = useState([]);
+
+
+
+    useEffect(()=>{
+        getFoodData();
+    },[])
+
+
+    const getFoodData = async() => {
+        const res = await fetch('/display')
+        const mydata = await res.json();
+        setMyFood(mydata);
+        setMyFilterFood(mydata);
+        
+    }
+    const uniqMenu = [...new Set( myfood.map(el=>el.category)), "All"]
+
+    
+    const filterItem = (menuItem) => {
+      if (menuItem == "All"){
+        setMyFilterFood(myfood);
+        return;
+      }
+      const updatedMenu = myfood.filter((el)=>{
+        return el.category === menuItem;
+      })
+      console.log(updatedMenu)
+      setMyFilterFood(updatedMenu);
     }
 
 
     return(
         <>
-        <h1>{foodapi[0].name}</h1>
-        <Navbar uniqcat = {menuList} filterMenu = {filterMenu}/>
-        <Menu foodApi = {foodapi}/>
+        <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
+        <Menu foodApi = {myFilterFood}/>
 
        
         </>

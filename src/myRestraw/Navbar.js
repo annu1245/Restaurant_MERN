@@ -1,13 +1,13 @@
 import React from "react";
 
 
-const Navbar = ({uniqcat, filterMenu}) => {
+const Navbar = ({uniqcat , filterItem}) => {
     return(
         <>
         {
             uniqcat.map((cat)=>{
                 return(
-                    <button onClick={()=>filterMenu(cat)}>{cat}</button>
+                    <button onClick={()=>filterItem(cat)}>{cat}</button>
                     
                 )
             })

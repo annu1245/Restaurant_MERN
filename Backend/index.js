@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const route = require('./Router/route');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+const logRoute = require('./Router/loginRoute');
+
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +24,7 @@ app.use(express.static('public'))
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/', route);
+app.use('/AdminLogin', logRoute);
 
 
 app.listen(5000, () => {
