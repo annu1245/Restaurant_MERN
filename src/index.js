@@ -6,22 +6,20 @@ import Restraw from './myRestraw/Restorent';
 import Header from './myRestraw/Header';
 import AddFood from './myRestraw/AddFood';
 import AdminLogin from './Auth/AdminLogin';
+import Register from './Authentication/Register';
+import Login from './Authentication/Login';
+import App from './App';
 import DisplayFood from './myRestraw/DisplayFood';
 
 import { BrowserRouter, Switch, Router, Route} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  // <React.StrictMode>
-    <BrowserRouter>
-    <Header/>
-      <Switch>
-        <Route exact path="/"  component={Restraw} />
-        <Route path="/add" component={AddFood} />
-        <Route path="/adminLogin" component={AdminLogin} />
-      </Switch>
-    </BrowserRouter>,
-  //  </React.StrictMode>,
+  <React.StrictMode>
+     <BrowserRouter>
+      <App/>
+     </BrowserRouter>,
+ </React.StrictMode>,
   document.getElementById('root')
 );
 

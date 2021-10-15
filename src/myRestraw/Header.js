@@ -8,7 +8,9 @@ function Header() {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/add">Add Food</Link></li>
                 <li><Link to="/adminLogin">Admin</Link></li>
-               
+                <li><Link to="/Login">Login</Link></li>
+                <li><Link to="/Register">Register</Link></li>
+                <li><Link to= "/loginTest">Authentication</Link></li>
             </ul>
         </>
     )

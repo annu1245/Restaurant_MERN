@@ -40,4 +40,16 @@ route.get('/display', (req,res)=>{
 })
 
 
+route.get('/addFood', (req, res) => {
+    session = req.session;
+    if (session.userid) {
+        res.send({status : 1})
+    }
+    else {
+        res.send({status : 0})
+    }
+})
+
+
+
 module.exports = route;
