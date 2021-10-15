@@ -23,7 +23,6 @@ route.post('/store', async(req,res)=>{
     })
 
     const data = await food.save();
-    console.log(data);
     res.send(data);
 })
 
@@ -33,7 +32,6 @@ route.get('/display', (req,res)=>{
             console.log(err)
         }
         else{
-            console.log(data);
             res.send(data)
         }
     })
@@ -43,11 +41,17 @@ route.get('/display', (req,res)=>{
 route.get('/addFood', (req, res) => {
     session = req.session;
     if (session.userid) {
+        console.log(session);
         res.send({status : 1})
     }
     else {
         res.send({status : 0})
     }
+})
+
+route.get('/logout', (req,res) => {
+    req.session.destroy();
+    res.send({status : 1})
 })
 
 

@@ -2,7 +2,7 @@ import { useState } from "react/cjs/react.development";
 import axios from "axios";
 import { useHistory } from "react-router";
 
-const Login = () => {
+const Login = ({handleLogin}) => {
 
     const [loginStatus, setLoginStatus] = useState();
 
@@ -38,7 +38,8 @@ const Login = () => {
                 setLoginStatus("Invalid EmailId OR Password")
             }
             else{
-                history.push('/');
+                {handleLogin();}
+                // history.push('/');
             }
         })
 

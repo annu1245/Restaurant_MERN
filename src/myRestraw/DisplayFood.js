@@ -1,8 +1,5 @@
-import { getDefaultNormalizer } from "@testing-library/dom";
 import React, { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
-import FoodCard from "./FoodCard";
-import Menu from "./MenuCard";
 import Navbar from "./Navbar";
 
 const DisplayFood = () => {
@@ -28,7 +25,7 @@ const DisplayFood = () => {
 
     
     const filterItem = (menuItem) => {
-      if (menuItem == "All"){
+      if (menuItem === "All"){
         setMyFilterFood(myfood);
         return;
       }
