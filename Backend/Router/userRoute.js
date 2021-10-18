@@ -37,10 +37,14 @@ userRoute.post('/login', (req, res) => {
         if (err){console.log(err)}
         if (data){
             if (data.password === req.body.password){
-                console.log(data);
+                var usertype = data.userType
+                console.log(usertype);
                 session=req.session;
                 session.userid=req.body.email;
                 console.log(req.session);
+                if(usertype == 1){
+                    return res.send({status : 2})
+                }
                 return res.send({status : 1})
             }
         }

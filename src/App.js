@@ -8,7 +8,7 @@ import Error from './myRestraw/Error';
 import LoginTest from './myRestraw/LoginTest';
 import Logout from './Authentication/Logout';
 import { Switch,  Route} from 'react-router-dom';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { useHistory } from "react-router";
 import ProtectedRoute from './myRestraw/ProtectedRoute';
 
@@ -16,7 +16,25 @@ import ProtectedRoute from './myRestraw/ProtectedRoute';
 const App = () => {
     const [user, setUser] = useState(false);
 
+    const [isAuth, setAuth] = useState(false);
+
     let history = useHistory();
+
+    const Demo = createContext();
+
+
+    const handleAuth = () => {
+        console.log("Auth user")
+        setAuth(true);
+        history.push({
+            pathname : '/',
+            state : {isAuth : true}
+        })
+        
+        
+        
+    }
+
 
     const handleLogout = async() => {
         const res = await fetch('/logout');
@@ -28,34 +46,27 @@ const App = () => {
     }
 
     const handleLogin = async() => {
-        const res = await fetch('/addFood')
-        const data = await res.json();
-        console.log(data.status);
-        if (data.status === 1){
             setUser(true);
-            history.push('/add')
-        }
-        else {
-            console.log("invalid")
-        }
+            history.push('/')
     }
+
 
 
 
 
     return (
         <>
-         <Header user = {user}/>
+         <Header isAuth = {isAuth}/>
         <Switch>
             <Route exact path="/"  component={Restraw} />
             <Route path="/adminLogin" component={AdminLogin} />
             {
-             user ?  <Route path="/Logout" render = {()=> <Logout handleLogout = {handleLogout}/>} /> 
-             :<Route path="/Login" render = {() => <Login handleLogin = {handleLogin}/>}/>
+             isAuth ?  <Route path="/Logout" render = {()=> <Logout handleLogout = {handleLogout}/>} /> 
+             :<Route path="/Login" render = {() => <Login handleLogin = {handleLogin} handleAuth = {handleAuth}/>}/>
             }
             <Route path="/Register" component={Register} />
 
-            <ProtectedRoute path="/add" user = {user} component={AddFood}/>
+            <ProtectedRoute path="/add" isAuth = {isAuth} component={AddFood}/>
 
             <Route component={Error}/>
         </Switch>

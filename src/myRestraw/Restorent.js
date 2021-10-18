@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
 import Menu from "./MenuCard";
 import Navbar from "./Navbar";
 
-const Restraw = () => {
+const Restraw = (props) => {
+    const checkAuth = props.location.state;
+    console.log(checkAuth);
+
 
     const [myfood, setMyFood] = useState([]);
     const [myFilterFood, setMyFilterFood] = useState([]);
 
-
+    // const productDetails = props.location.state || {};
+    // console.log(productDetails)
 
     useEffect(()=>{
         getFoodData();
@@ -41,7 +46,7 @@ const Restraw = () => {
     return(
         <>
         <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
-        <Menu foodApi = {myFilterFood}/>
+        <Menu foodApi = {myFilterFood} isAuth = {checkAuth}/>
 
        
         </>

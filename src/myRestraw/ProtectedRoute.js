@@ -1,13 +1,12 @@
 import {Route, Redirect} from 'react-router-dom';
 
-const ProtectedRoute = ({component : Component, user, ...rest}) => {
-    console.log(user)
+const ProtectedRoute = ({component : Component, isAuth, ...rest}) => {
     return (
         <Route {...rest} render = {() => {
-            if (!user) {
-               return <Redirect to ="/Login" />
+            if (isAuth) {
+               return <Component/>
             }
-            return  <Component/> 
+            return <Redirect to ="/Error" />
         }} />
     )
 }

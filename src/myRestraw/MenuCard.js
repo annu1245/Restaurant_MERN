@@ -1,7 +1,9 @@
 import React from "react";
 
 
-const Menu = ({foodApi}) => {
+const Menu = ({foodApi, isAuth}) => {
+  
+  console.log("MMMMMM",isAuth)
     return(
         <>
         <section className="main-card--cointainer">
@@ -21,7 +23,13 @@ const Menu = ({foodApi}) => {
                 <div className="card-read">Read</div>
               </div>
               <img src={ele.image_path} alt="images" className="card-media" />
-
+             { isAuth ? 
+              <div>
+                <button>Edit</button>
+                <button>Delete</button>
+              </div> 
+              : null}
+              
               <span className="card-tag  subtle">Order Now</span>
             </div>
           </div>
