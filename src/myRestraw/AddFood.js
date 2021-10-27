@@ -4,17 +4,49 @@ import axios from 'axios';
 import { useHistory } from 'react-router';
 import { getDefaultNormalizer } from '@testing-library/dom';
 import Error from './Error';
+import { useLocation } from "react-router-dom";
+
 
 
 const AddFood = () =>{
 
     const [myimg, setMyImg] = useState();
+
+    const [editMyFood, setEditMyFood] = useState(false);
+
     const [data, setData] = useState({
         dish : "",
         category : "",
         description : "",
 
     })
+    const location = useLocation();
+    
+    useEffect(()=>{
+    if (location.state != null){
+        console.log("state",location.state);
+        editMenu();
+        setEditMyFood(true)
+    }
+    },[location])
+
+
+    
+    const editMenu = () => {
+        const {dish_name, description, category, image_path} = location.state;
+        setMyImg(image_path);
+        setData((pre)=>{
+            console.log(description);
+            return{
+                dish : dish_name,
+                category : category,
+                description : description,
+            }
+        })
+     }
+    
+    
+    
 
     const DataEvent = (event) => {
         const {name, value} = event.target;
@@ -27,7 +59,9 @@ const AddFood = () =>{
     }
 
     const InputEvent = (e) => {
+
         const img = e.target.files[0];
+       
         setMyImg(img);
         
     }  
@@ -44,18 +78,19 @@ const AddFood = () =>{
         formData.append('category', category)
         formData.append('description', description)
 
-        
+         
+
+
+
         const config = {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
             }
         }
-        axios.post('/store', formData, config)
+        axios.post('/store',formData, config)
         .then(()=>history.push('/'))
         .catch(err=>console.log(err))
     }
-
-
 
 
     return(
@@ -86,9 +121,13 @@ const AddFood = () =>{
                    name="description"
                    value={data.description}/>
         </div>
-        <input type="file" onChange={InputEvent}/>
+        <img src = {myimg} />
+        <input type="file" 
+               onChange={InputEvent}  />
         <div class="d-grid mt-4">
-            <button onClick = {SubmitForm} class="btn btn-primary" type="button">Save</button>
+           {
+                editMyFood ? <button onClick = {SubmitForm} class="btn btn-warning" type="button">Update</button> : <button onClick = {SubmitForm} class="btn btn-primary" type="button">Save</button>
+           } 
         </div>
         </form>
 

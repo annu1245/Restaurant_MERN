@@ -3,24 +3,24 @@ const mongoose = require('mongoose');
 const FoodSchema = new mongoose.Schema({
     dishId : {
         type:Number,
-        required : true,
+        // required : true,
     },
     dish_name: {
         type: String,
-        required: true,
+        // required: true,
       },
 
     description: {
         type : String,
-        required : true,
+        // required : true,
     },
     category : {
         type : String,
-        required : true,
+        // required : true,
     },
     image_path:{
         type : String,
-        required : true
+        default : 'images/defaultImg.jpg'
     }
     
 

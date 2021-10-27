@@ -4,9 +4,11 @@ import { useState } from "react/cjs/react.development";
 import Menu from "./MenuCard";
 import Navbar from "./Navbar";
 
-const Restraw = (props) => {
-    const checkAuth = props.location.state;
-    console.log(checkAuth);
+const Restraw = ({isAuth}) => {
+    // const checkAuth = props.location.state;
+    // console.log(checkAuth);
+
+    console.log("Authentication", isAuth);
 
 
     const [myfood, setMyFood] = useState([]);
@@ -38,7 +40,6 @@ const Restraw = (props) => {
       const updatedMenu = myfood.filter((el)=>{
         return el.category === menuItem;
       })
-      console.log(updatedMenu)
       setMyFilterFood(updatedMenu);
     }
 
@@ -46,7 +47,7 @@ const Restraw = (props) => {
     return(
         <>
         <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
-        <Menu foodApi = {myFilterFood} isAuth = {checkAuth}/>
+        <Menu foodApi = {myFilterFood} isAuth = {isAuth}/>
 
        
         </>

@@ -3,7 +3,13 @@ const userRoute = express.Router();
 const User = require('../DB/UserDB')
 
 userRoute.get('/', (req,res)=>{
-    res.send("user Route")
+    session=req.session;
+    if (session.userid){
+        res.send({status : 1})
+    }
+    else {
+        res.send({status : 0})
+    }
 })
 
 

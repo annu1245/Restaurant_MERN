@@ -1,18 +1,19 @@
 import Restraw from './myRestraw/Restorent';
 import Header from './myRestraw/Header';
 import AddFood from './myRestraw/AddFood';
-import AdminLogin from './Auth/AdminLogin';
 import Register from './Authentication/Register';
 import Login from './Authentication/Login';
 import Error from './myRestraw/Error';
-import LoginTest from './myRestraw/LoginTest';
+import Navbar from './Navbar/Navbar';
 import Logout from './Authentication/Logout';
+import Test from './myRestraw/Test';
+
 import { Switch,  Route} from 'react-router-dom';
 import { createContext, useState } from 'react';
 import { useHistory } from "react-router";
 import ProtectedRoute from './myRestraw/ProtectedRoute';
-
-
+import { useEffect } from 'react/cjs/react.development';
+import './index.css';
 const App = () => {
     const [user, setUser] = useState(false);
 
@@ -24,16 +25,31 @@ const App = () => {
 
 
     const handleAuth = () => {
-        console.log("Auth user")
         setAuth(true);
-        history.push({
-            pathname : '/',
-            state : {isAuth : true}
-        })
-        
-        
         
     }
+
+    const checkSession = async() => {
+        const res = await fetch('/user');
+        const data = await res.json();
+        if (data.status === 0){
+            setAuth(false)
+        }
+        else {
+            setAuth(true)
+        }
+    }
+
+    useEffect(()=>{
+        checkSession();
+    })
+
+    useEffect(() => {
+        history.push({
+            pathname : '/',
+            state : isAuth,
+        }) 
+    },[isAuth])
 
 
     const handleLogout = async() => {
@@ -41,7 +57,7 @@ const App = () => {
         const data = await res.json();
         console.log(data);
         if (data.status === 1){
-            setUser(false);
+            setAuth(false);
         }
     }
 
@@ -50,24 +66,21 @@ const App = () => {
             history.push('/')
     }
 
-
-
-
-
     return (
         <>
-         <Header isAuth = {isAuth}/>
+        {/* <Test/> */}
+        <Navbar isAuth = {isAuth}/>
+         {/* <Header isAuth = {isAuth}/> */}
         <Switch>
-            <Route exact path="/"  component={Restraw} />
-            <Route path="/adminLogin" component={AdminLogin} />
+            <Route exact path="/" render = {() => <Restraw isAuth = {isAuth}/>} />
             {
              isAuth ?  <Route path="/Logout" render = {()=> <Logout handleLogout = {handleLogout}/>} /> 
              :<Route path="/Login" render = {() => <Login handleLogin = {handleLogin} handleAuth = {handleAuth}/>}/>
             }
             <Route path="/Register" component={Register} />
 
-            <ProtectedRoute path="/add" isAuth = {isAuth} component={AddFood}/>
-
+            <ProtectedRoute exact path="/add" isAuth = {isAuth} component={AddFood}/>
+            
             <Route component={Error}/>
         </Switch>
         </>

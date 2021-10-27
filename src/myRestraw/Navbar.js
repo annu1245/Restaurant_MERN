@@ -7,8 +7,9 @@ const Navbar = ({uniqcat , filterItem}) => {
         {
             uniqcat.map((cat)=>{
                 return(
-                    <button onClick={()=>filterItem(cat)}>{cat}</button>
-                    
+                    <>
+                      <button onClick={()=>filterItem(cat)}>{cat}</button>
+                    </>
                 )
             })
         }

@@ -136,3 +136,16 @@ code {
   display: flex;
   justify-content: start;
 }
+
+
+a.active_class{
+  color : red;
+}
+
+.btn_menu{
+  display: flex;
+  margin: 0 auto;
+}
+.btn_style{
+  
+}
