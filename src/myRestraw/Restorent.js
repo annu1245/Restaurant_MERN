@@ -9,7 +9,8 @@ const Restraw = ({isAuth}) => {
     // console.log(checkAuth);
 
     console.log("Authentication", isAuth);
-
+    
+  
 
     const [myfood, setMyFood] = useState([]);
     const [myFilterFood, setMyFilterFood] = useState([]);
@@ -20,6 +21,10 @@ const Restraw = ({isAuth}) => {
     useEffect(()=>{
         getFoodData();
     },[])
+
+    const changeFoodApi = (e) => {
+      setMyFilterFood(e)
+    }
 
 
     const getFoodData = async() => {
@@ -47,7 +52,7 @@ const Restraw = ({isAuth}) => {
     return(
         <>
         <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
-        <Menu foodApi = {myFilterFood} isAuth = {isAuth}/>
+        <Menu foodApi = {myFilterFood} isAuth = {isAuth} chngFood = {changeFoodApi}/>
 
        
         </>

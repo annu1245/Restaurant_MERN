@@ -11,19 +11,31 @@ route.get('/', (req,res)=>{
 route.post('/store', async(req,res)=>{
     // image = req.files.img;
     // console.log(image)
-    if (!(req.files && req.files.image)){
-        console.log("null")
+    var location;
+    if (!(req.files && req.files.img)){
+        location = req.body.img
+        
+    }
+    else {
+          image = req.files.img;
+          image.mv('./public/images/' + image.name);
+          location = 'images/'+ image.name;
     }
     options = { upsert: true, new : true, setDefaultsOnInsert: true};
     // query = {_id: "6178ed22f8ac7eb219069f18"}
-    Food.findOneAndUpdate({dish_name:req.body.dish},
-         {category : req.body.category}, 
+    Food.findOneAndUpdate({dishId:req.body.dishId},
+         {
+          dish_name : req.body.dish,
+          category : req.body.category,
+          description : req.body.description,
+          image_path : location
+        }, 
          options, 
          function(error, result) {
-        if(error){
-            console.log(error)
-        }
-        console.log(result)
+            if(error){
+                console.log(error)
+            }
+            console.log(result)
         
     //    if(!result){
     //     result = new Food();

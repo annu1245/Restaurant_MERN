@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useEffect } from "react/cjs/react.development";
 
-const Menu = ({foodApi, isAuth}) => {
+const Menu = ({foodApi, isAuth, chngFood}) => {
 
 
-  var [filterFood, setFilterFood] = useState([]);
+  const [filterFood, setFilterFood] = useState([]);
   // console.log("$$$$",{foodApi});
   useEffect(()=>{
     var dd = foodApi;
@@ -16,14 +16,16 @@ const Menu = ({foodApi, isAuth}) => {
   
 
   const DeleteMenu = (id) => {
-    
     const delt = foodApi.filter((el) => {
       return el._id != id;
     })
-    setFilterFood(delt);
     axios.post('/deleteFood', {foodId : id})
-    .then(res => console.log(res.data.status))
+    .then(res => console.log(res.data.status));
+    setFilterFood(delt);
+    chngFood(delt);
+
   }
+  
 
   let history = useHistory();
   const EditMenu = (id) => {
@@ -39,18 +41,20 @@ const Menu = ({foodApi, isAuth}) => {
         })
       }
   }
+
+  
   
     return(
         <>
         <section className="main-card--cointainer">
-
 {
     filterFood.map((ele)=>{
         return(
+          
             <div className="card-container" key={ele._id}>
             <div className="card ">
               <div className="card-body">
-                <span className="card-number card-circle subtle">{ele.dishId}</span>
+                {/* <span className="card-number card-circle subtle">{ele.dishId}</span> */}
                 <span className="card-author subtle"> {ele.category}</span>
                 <h2 className="card-title"> {ele.name} </h2>
                 <span className="card-description subtle">

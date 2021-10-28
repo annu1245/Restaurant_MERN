@@ -47,7 +47,7 @@ const DisplayFood = () => {
                     <div className="card-container" key={ele._id}>
                     <div className="card ">
                       <div className="card-body">
-                        <span className="card-number card-circle subtle">{ele.dishId}</span>
+                        {/* <span className="card-number card-circle subtle">{ele.dishId}</span> */}
                         <span className="card-author subtle"> {ele.category}</span>
                         <h2 className="card-title"> {ele.name} </h2>
                         <span className="card-description subtle">

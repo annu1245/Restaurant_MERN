@@ -12,6 +12,9 @@ const AddFood = () =>{
 
     const [myimg, setMyImg] = useState();
 
+    var time = new Date().getTime().toString(); 
+    const [dishid, setDishId] = useState(time);
+
     const [editMyFood, setEditMyFood] = useState(false);
 
     const [data, setData] = useState({
@@ -33,8 +36,9 @@ const AddFood = () =>{
 
     
     const editMenu = () => {
-        const {dish_name, description, category, image_path} = location.state;
+        const {dishId, dish_name, description, category, image_path} = location.state;
         setMyImg(image_path);
+        setDishId(dishId);
         setData((pre)=>{
             console.log(description);
             return{
@@ -59,9 +63,7 @@ const AddFood = () =>{
     }
 
     const InputEvent = (e) => {
-
         const img = e.target.files[0];
-       
         setMyImg(img);
         
     }  
@@ -72,15 +74,14 @@ const AddFood = () =>{
     const SubmitForm = () =>{
         const {dish, category, description} = data;
         const formData = new FormData();
-        
+
         formData.append('img',myimg)
+        formData.append('dishId',dishid)
         formData.append('dish', dish)
         formData.append('category', category)
         formData.append('description', description)
 
          
-
-
 
         const config = {
             headers: {
