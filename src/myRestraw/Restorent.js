@@ -22,9 +22,17 @@ const Restraw = ({isAuth}) => {
         getFoodData();
     },[])
 
-    const changeFoodApi = (e) => {
-      setMyFilterFood(e)
+    const changeFoodApi = (e, delid) => {
+      setMyFilterFood(e);
+      
+
+      const delfood = myfood.filter((el) => {
+        return el._id != delid;
+      })
+      setMyFood(delfood);
     }
+
+   
 
 
     const getFoodData = async() => {
@@ -52,7 +60,7 @@ const Restraw = ({isAuth}) => {
     return(
         <>
         <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
-        <Menu foodApi = {myFilterFood} isAuth = {isAuth} chngFood = {changeFoodApi}/>
+        <Menu foodApi = {myFilterFood} isAuth = {isAuth} chngFood = {changeFoodApi} />
 
        
         </>

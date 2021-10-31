@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color:rgb(251, 235, 255) !important;
 }
 
 code {
@@ -145,7 +146,4 @@ a.active_class{
 .btn_menu{
   display: flex;
   margin: 0 auto;
-}
-.btn_style{
-  
 }

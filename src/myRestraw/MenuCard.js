@@ -1,15 +1,16 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import AddToCard from "../OrderFood/AddToCard";
+import { useHistory, useLocation } from "react-router";
 import { useEffect } from "react/cjs/react.development";
+import { Children } from "react";
 
 const Menu = ({foodApi, isAuth, chngFood}) => {
 
+  const [addtoCard, setAddtoCard] = useState([]);
 
   const [filterFood, setFilterFood] = useState([]);
-  // console.log("$$$$",{foodApi});
   useEffect(()=>{
-    var dd = foodApi;
     setFilterFood(foodApi);
     console.log(filterFood, foodApi)
   },[foodApi])
@@ -22,7 +23,7 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
     axios.post('/deleteFood', {foodId : id})
     .then(res => console.log(res.data.status));
     setFilterFood(delt);
-    chngFood(delt);
+    chngFood(delt, id);
 
   }
   
@@ -41,16 +42,32 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
         })
       }
   }
+ history = useHistory();
+  
+  const AddtoCard = (id) => {
+    setAddtoCard((pre) => {
+      return [...pre,id]
+    })
+     
+      
+  }
 
+  useEffect(() => {
+    localStorage.setItem('cardItemId', JSON.stringify(addtoCard))
+
+ },[addtoCard]) 
+    
   
-  
+
     return(
         <>
+     
+        {/* <AddToCard/> */}
         <section className="main-card--cointainer">
 {
     filterFood.map((ele)=>{
         return(
-          
+
             <div className="card-container" key={ele._id}>
             <div className="card ">
               <div className="card-body">
@@ -70,7 +87,7 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
               </div> 
               : null}
               
-              <span className="card-tag  subtle">Order Now</span>
+              <span onClick = {() => AddtoCard(ele.dishId)} className="card-tag subtle">Add Order</span>
             </div>
           </div>
         )
@@ -82,3 +99,4 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
     )
 }
 export default Menu;
+

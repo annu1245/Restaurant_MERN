@@ -9,20 +9,23 @@ route.get('/', (req,res)=>{
 })
 
 route.post('/store', async(req,res)=>{
-    // image = req.files.img;
-    // console.log(image)
     var location;
     if (!(req.files && req.files.img)){
-        location = req.body.img
-        
+        if (req.body.img === 'undefined' ){
+            location = 'images/defaultImg.jpg'
+        }
+        else{
+            location = req.body.img;
+        }
     }
     else {
           image = req.files.img;
           image.mv('./public/images/' + image.name);
           location = 'images/'+ image.name;
     }
+
+   
     options = { upsert: true, new : true, setDefaultsOnInsert: true};
-    // query = {_id: "6178ed22f8ac7eb219069f18"}
     Food.findOneAndUpdate({dishId:req.body.dishId},
          {
           dish_name : req.body.dish,
@@ -36,40 +39,8 @@ route.post('/store', async(req,res)=>{
                 console.log(error)
             }
             console.log(result)
-        
-    //    if(!result){
-    //     result = new Food();
-        
-    //    }
-    //    result.save(function(error){
-    //        if(!error){
-    //            console.log("yes")
-    //        }
-    //        else{
-    //            console.log(error)
-    //        }
-    
-   
-    //    })
-        
-        
-    
-        // do something with the document
     });
 
-    // image.mv('./public/images/' + image.name);
-    // location = 'images/'+ image.name;
-    // var cnt = await Food.collection.count();
-    // console.log(cnt);
-    // const food = new Food({
-    //     dish_name : req.body.dish,
-    //     description : req.body.description,
-    //     category : req.body.category,
-    //     image_path : location, 
-    // })
-
-    // const data = await food.save();
-    // res.send(data);
     console.log(req.body)
     res.send("ok")
 })

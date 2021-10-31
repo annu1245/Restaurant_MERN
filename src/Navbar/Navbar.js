@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
 
 const Navbar = ({isAuth}) => {
+
+    const showCart = ({data}) => {
+        console.log("data", data)
+    }
+
     return(
         <nav class="navbar navbar-light" style = {{background : "rgba(255,209,67,1)"}}>
             <div class="container-fluid">
@@ -14,6 +19,8 @@ const Navbar = ({isAuth}) => {
                 <li class="nav-item">
                     <NavLink to = "/" activeClassName = "active_class" style = {{padding : "10px"}}>Home</NavLink>
                 </li>
+                <li class="nav-item">
+                <NavLink to = "/bucket" activeClassName = "active_class" style = {{padding : "10px"}}>Add to cart</NavLink>                </li>
                 <li class="nav-item">
                     {
                         isAuth ? <NavLink to = "/add" activeClassName = "active_class" style = {{padding : "10px"}}>AddFood</NavLink> : null

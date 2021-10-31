@@ -20,7 +20,7 @@ const FoodSchema = new mongoose.Schema({
     },
     image_path:{
         type : String,
-        default : 'images/defaultImg.jpg'
+        // default : 'images/defaultImg.jpg'
     }
     
 
