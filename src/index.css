@@ -147,3 +147,29 @@ a.active_class{
   display: flex;
   margin: 0 auto;
 }
+
+.img_class{
+  padding: 20px;
+
+}
+.bucket_row{
+
+  background-color:rgb(255, 255, 255)
+}
+
+.bucket_detail{
+  padding: 20px;
+}
+
+.span_circle{
+  
+  background-color: red;
+  border-radius: 80px;
+  position: relative;
+  top : -15px;
+  padding: 6px;
+  }
+
+  .navbar_spacing{
+    padding : 10px;
+  }

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import DeleteForever from '@material-ui/icons/DeleteForever'
 const Navbar = ({isAuth}) => {
 
     const showCart = ({data}) => {
@@ -17,23 +18,33 @@ const Navbar = ({isAuth}) => {
                 <ul class="nav nav-pills">
                 
                 <li class="nav-item">
-                    <NavLink to = "/" activeClassName = "active_class" style = {{padding : "10px"}}>Home</NavLink>
+                    <NavLink to = "/" activeClassName = "active_class"  className = "navbar_spacing">
+                        Home
+                    </NavLink>
                 </li>
-                <li class="nav-item">
-                <NavLink to = "/bucket" activeClassName = "active_class" style = {{padding : "10px"}}>Add to cart</NavLink>                </li>
+               
                 <li class="nav-item">
                     {
-                        isAuth ? <NavLink to = "/add" activeClassName = "active_class" style = {{padding : "10px"}}>AddFood</NavLink> : null
+                        isAuth ? <NavLink to = "/add" activeClassName = "active_class"  className = "navbar_spacing">AddFood</NavLink> : null
                     } 
                 </li>
                 
                 <li class="nav-item">
-                    { isAuth ? null : <NavLink to = "/Register" activeClassName = "active_class" style = {{padding : "10px"}}>Register</NavLink>}
+                    { isAuth ? null : <NavLink to = "/Register" activeClassName = "active_class"  className = "navbar_spacing">Register</NavLink>}
                 </li>
                 <li class="nav-item">
                     {
-                        isAuth ? <NavLink to = "/Logout" activeClassName = "active_class" style = {{padding : "10px"}}>LogOut</NavLink> : <NavLink to = "/Login" activeClassName = "active_class" style = {{padding : "10px"}}>Login</NavLink>
+                        isAuth ? 
+                        <NavLink to = "/Logout" activeClassName = "active_class"  className = "navbar_spacing">LogOut</NavLink>
+                         : <NavLink to = "/Login" activeClassName = "active_class" style = {{padding : "10px"}}>Login</NavLink>
                     } 
+                </li>
+
+                <li class="nav-item">
+                    <NavLink to = "/bucket" activeClassName = "active_class" className = "navbar_spacing">
+                         <i class="fas fa-shopping-cart"></i>
+                         <span className = "span_circle"> hi </span>
+                    </NavLink>  
                 </li>
                 
                 </ul>

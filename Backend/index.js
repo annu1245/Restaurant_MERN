@@ -7,8 +7,13 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const logRoute = require('./Router/loginRoute');
 const userRoute = require('./Router/userRoute');
+const anUserRoute = require('./Router/anUserRoute');
+const cartRoute = require('./Router/cartRoute');
+
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
+
+
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +42,8 @@ app.use(cookieParser());
 app.use('/', route);
 app.use('/AdminLogin', logRoute);
 app.use('/user', userRoute);
+app.use('/anuser',anUserRoute);
+app.use('/cart', cartRoute)
 
 app.listen(5000, () => {
     console.log("Server is running at port 5000");

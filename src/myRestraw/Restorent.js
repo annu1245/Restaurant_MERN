@@ -4,24 +4,12 @@ import { useState } from "react/cjs/react.development";
 import Menu from "./MenuCard";
 import Navbar from "./Navbar";
 
-const Restraw = ({isAuth}) => {
-    // const checkAuth = props.location.state;
-    // console.log(checkAuth);
-
-    console.log("Authentication", isAuth);
-    
-  
+const Restraw = ({isAuth, isCookie}) => {
 
     const [myfood, setMyFood] = useState([]);
     const [myFilterFood, setMyFilterFood] = useState([]);
 
-    // const productDetails = props.location.state || {};
-    // console.log(productDetails)
-
-    useEffect(()=>{
-        getFoodData();
-    },[])
-
+    
     const changeFoodApi = (e, delid) => {
       setMyFilterFood(e);
       
@@ -32,16 +20,17 @@ const Restraw = ({isAuth}) => {
       setMyFood(delfood);
     }
 
-   
-
+    useEffect(()=>{
+      getFoodData();
+    },[])
 
     const getFoodData = async() => {
-        const res = await fetch('/display')
-        const mydata = await res.json();
-        setMyFood(mydata);
-        setMyFilterFood(mydata);
-        
-    }
+      const res = await fetch('/display')
+      const mydata = await res.json(); 
+      setMyFood(mydata);
+      setMyFilterFood(mydata);
+  }
+    
     const uniqMenu = [...new Set( myfood.map(el=>el.category)), "All"]
 
     
@@ -50,21 +39,25 @@ const Restraw = ({isAuth}) => {
         setMyFilterFood(myfood);
         return;
       }
-      const updatedMenu = myfood.filter((el)=>{
+    const updatedMenu = myfood.filter((el)=>{
         return el.category === menuItem;
       })
       setMyFilterFood(updatedMenu);
     }
 
+  
+  
 
     return(
         <>
         <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
-        <Menu foodApi = {myFilterFood} isAuth = {isAuth} chngFood = {changeFoodApi} />
+        <Menu foodApi = {myFilterFood} isAuth = {isAuth} chngFood = {changeFoodApi} isCookie = {isCookie}/>
 
        
         </>
     )
 }
+
+
 
 export default Restraw;

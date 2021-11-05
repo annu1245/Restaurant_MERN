@@ -8,6 +8,8 @@ import Logout from './Authentication/Logout';
 import Test from './myRestraw/Test';
 import AddToCard from './OrderFood/AddToCard';
 
+import Cookies from 'universal-cookie';
+
 import { Switch,  Route} from 'react-router-dom';
 import { createContext, useState } from 'react';
 import { useHistory } from "react-router";
@@ -16,19 +18,14 @@ import { useEffect } from 'react/cjs/react.development';
 import './index.css';
 
 
-
 const App = () => {
     const [user, setUser] = useState(false);
-
     const [isAuth, setAuth] = useState(false);
+    const [isCookie, setisCookie] = useState(false);
+
 
     const [addcard, setAddCard] = useState(false);
     let history = useHistory();
-
-    const Demo = createContext();
-
-    window.atc_data = [];
-
 
     const handleAuth = () => {
         setAuth(true);
@@ -46,8 +43,20 @@ const App = () => {
         }
     }
 
+  const cookies = new Cookies();
+
+    const checkCookie = () => {
+        if (!cookies.get('userId')){
+            setisCookie(false);
+        } 
+        else {
+            setisCookie(true);
+        }
+    }
+
     useEffect(()=>{
         checkSession();
+        checkCookie();
     })
 
     useEffect(() => {
@@ -72,20 +81,25 @@ const App = () => {
             history.push('/')
     }
 
+
+// const bucket_items_count = () => {
+//     axios.get('')
+// }
+   
+    
+
     return (
         <>
-        {/* <Test/> */}
         <Navbar isAuth = {isAuth}/>
-         {/* <Header isAuth = {isAuth}/> */}
         <Switch>
-            <Route exact path="/" render = {() => <Restraw isAuth = {isAuth} isAddCard = {addcard}/>} />
+            <Route exact path="/" render = {() => <Restraw isAuth = {isAuth} isCookie = {isCookie} isAddCard = {addcard}/>} />
             {
              isAuth ?  <Route path="/Logout" render = {()=> <Logout handleLogout = {handleLogout}/>} /> 
              :<Route path="/Login" render = {() => <Login handleLogin = {handleLogin} handleAuth = {handleAuth}/>}/>
             }
             <Route path="/Register" component={Register} />
             
-            <Route path = '/bucket' component={AddToCard}  />
+            <Route path = '/bucket' render = {() => <AddToCard  isCookie = {isCookie}/>} />
             <ProtectedRoute exact path="/add" isAuth = {isAuth} component={AddFood}/>
             
             <Route component={Error}/>

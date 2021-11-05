@@ -4,17 +4,38 @@ import AddToCard from "../OrderFood/AddToCard";
 import { useHistory, useLocation } from "react-router";
 import { useEffect } from "react/cjs/react.development";
 import { Children } from "react";
+import Cookies from "universal-cookie/es6";
 
-const Menu = ({foodApi, isAuth, chngFood}) => {
+const getLocalItem = () => {
+  
+ 
+  let data = localStorage.getItem('cardItemId');
+  console.log(data);
 
-  const [addtoCard, setAddtoCard] = useState([]);
+  if(data){
+      return JSON.parse(localStorage.getItem('cardItemId'));
+  }
+  else{
+      return [];  
+  }
+}
+
+
+
+const Menu = ({foodApi, isAuth, chngFood, isCookie}) => {
+
+  const [itemCount, setItemCount] = useState(0);
+
+
+  const [addtoCard, setAddtoCard] = useState(getLocalItem());
 
   const [filterFood, setFilterFood] = useState([]);
   useEffect(()=>{
     setFilterFood(foodApi);
-    console.log(filterFood, foodApi)
   },[foodApi])
   
+
+
 
   const DeleteMenu = (id) => {
     const delt = foodApi.filter((el) => {
@@ -33,9 +54,7 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
       const editElm = filterFood.find((el) => {
         return el._id === id;
       })
-      console.log("dfjdf",editElm)
       if (editElm){
-        console.log(editElm);
         history.push({
           pathname : "/add",
           state : editElm,
@@ -44,13 +63,42 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
   }
  history = useHistory();
   
-  const AddtoCard = (id) => {
-    setAddtoCard((pre) => {
-      return [...pre,id]
+
+ const cookies = new Cookies();               
+
+const AddtoCard = (id) => {
+  if (!isCookie){
+    console.log("not cookie")
+    axios.post('anuser/store', {name : "Annonimus"})
+    .then((res) => {
+      if(res){
+        cookies.set('userId', res, {path : '/'})
+      }
     })
-     
-      
   }
+  StoreProduct(id);
+  }
+
+
+  const StoreProduct = (id) => {
+    const cookieId = cookies.get('userId');
+    axios.post('cart/storeOrder', {userId : cookieId.data, productId : id, quantity : 1})
+    .then((res) => {setItemCount(itemCount + 1)})
+  } 
+  // const setCookie = () => {
+  //   if (!cookies.get('userId')) {
+  //   var crypto = require("crypto");
+  //   var id = crypto.randomBytes(20).toString('hex');
+  //   cookies.set('userId', id, { path: '/' });
+  //   }
+  //   else {
+  //     console.log("already set")
+  //   }
+  // }
+
+  // const getCookie = () => {
+  // console.log(cookies.get('userId')); // Pacman
+  // }
 
   useEffect(() => {
     localStorage.setItem('cardItemId', JSON.stringify(addtoCard))
@@ -58,11 +106,11 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
  },[addtoCard]) 
     
   
+  console.log({isCookie});
 
     return(
         <>
      
-        {/* <AddToCard/> */}
         <section className="main-card--cointainer">
 {
     filterFood.map((ele)=>{
@@ -99,4 +147,3 @@ const Menu = ({foodApi, isAuth, chngFood}) => {
     )
 }
 export default Menu;
-
