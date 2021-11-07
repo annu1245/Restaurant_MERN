@@ -4,7 +4,7 @@ import { useState } from "react/cjs/react.development";
 import Menu from "./MenuCard";
 import Navbar from "./Navbar";
 
-const Restraw = ({isAuth, isCookie}) => {
+const Restraw = ({isAuth, isCookie, totalItem}) => {
 
     const [myfood, setMyFood] = useState([]);
     const [myFilterFood, setMyFilterFood] = useState([]);
@@ -51,7 +51,11 @@ const Restraw = ({isAuth, isCookie}) => {
     return(
         <>
         <Navbar uniqcat = {uniqMenu} filterItem = {filterItem}/>
-        <Menu foodApi = {myFilterFood} isAuth = {isAuth} chngFood = {changeFoodApi} isCookie = {isCookie}/>
+        <Menu foodApi = {myFilterFood} 
+              isAuth = {isAuth} 
+              chngFood = {changeFoodApi} 
+              isCookie = {isCookie}
+              totalItem = {totalItem}/>
 
        
         </>

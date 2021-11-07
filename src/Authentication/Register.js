@@ -42,8 +42,8 @@ const Register = () => {
             if(res.data.status == 0){
                 setRegStatus("Email already used")
             }
-            else{
-                
+            else if(res.data.status === 1){
+                history.push('/login')
             }
         })
 

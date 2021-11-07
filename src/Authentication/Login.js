@@ -2,7 +2,7 @@ import { useState } from "react/cjs/react.development";
 import axios from "axios";
 import { useHistory } from "react-router";
 
-const Login = ({handleLogin, handleAuth}) => {
+const Login = ({handleNormalUserLogin, handleAdminUser}) => {
 
     const [loginStatus, setLoginStatus] = useState();
 
@@ -38,11 +38,10 @@ const Login = ({handleLogin, handleAuth}) => {
                 setLoginStatus("Invalid EmailId OR Password")
             }
             else if (res.data.status === 2){
-                {handleAuth();}
+                {handleAdminUser();}
             }
-            else{
-                {handleLogin();}
-                // history.push('/');
+            else if(res.data.status === 1){
+                {handleNormalUserLogin();}
             }
         })
 

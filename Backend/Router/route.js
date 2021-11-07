@@ -86,10 +86,7 @@ route.post('/deleteFood', (req, res) => {
     })
 })
 
-route.get('/logout', (req,res) => {
-    req.session.destroy();
-    res.send({status : 1})
-})
+
 
 
 

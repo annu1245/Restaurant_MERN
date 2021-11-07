@@ -2,10 +2,19 @@ const express = require('express');
 const userRoute = express.Router();
 const User = require('../DB/UserDB')
 
+
 userRoute.get('/', (req,res)=>{
     session=req.session;
     if (session.userid){
-        res.send({status : 1})
+        User.findOne({_id : session.userid}, (err,data)=>{
+            if (data.userType == 0){
+                return res.send({status : 1})
+            }
+            else if(data.userType == 1){
+                return res.send({status : 2})
+            }
+        })
+        
     }
     else {
         res.send({status : 0})
@@ -45,12 +54,14 @@ userRoute.post('/login', (req, res) => {
             if (data.password === req.body.password){
                 var usertype = data.userType
                 console.log(usertype);
-                session=req.session;
-                session.userid=req.body.email;
+                session = req.session;
+                session.userid = data._id;
                 console.log(req.session);
                 if(usertype == 1){
+                    //admin user
                     return res.send({status : 2})
                 }
+                //normal user
                 return res.send({status : 1})
             }
         }
@@ -59,6 +70,12 @@ userRoute.post('/login', (req, res) => {
             return res.send({status : 0})
         }
     } )
+})
+
+
+userRoute.get('/logout', (req,res) => {
+    req.session.destroy();
+    res.send({status : 1})
 })
 
 

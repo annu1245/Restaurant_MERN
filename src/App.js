@@ -7,7 +7,7 @@ import Navbar from './Navbar/Navbar';
 import Logout from './Authentication/Logout';
 import Test from './myRestraw/Test';
 import AddToCard from './OrderFood/AddToCard';
-
+import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 import { Switch,  Route} from 'react-router-dom';
@@ -16,30 +16,41 @@ import { useHistory } from "react-router";
 import ProtectedRoute from './myRestraw/ProtectedRoute';
 import { useEffect } from 'react/cjs/react.development';
 import './index.css';
-
+import React from 'react';
 
 const App = () => {
     const [user, setUser] = useState(false);
     const [isAuth, setAuth] = useState(false);
     const [isCookie, setisCookie] = useState(false);
+    const [itemCount, setItemCount] = useState(null);
 
 
     const [addcard, setAddCard] = useState(false);
     let history = useHistory();
 
-    const handleAuth = () => {
-        setAuth(true);
-        
+    const handleAdminUser = () => {
+        setAuth(true);  
+    }
+
+    const handleNormalUserLogin = () => {
+        setUser(true);
+        history.push('/')
     }
 
     const checkSession = async() => {
         const res = await fetch('/user');
         const data = await res.json();
-        if (data.status === 0){
-            setAuth(false)
+        
+        if (data.status === 1){
+            setUser(true);
         }
-        else {
-            setAuth(true)
+
+        else if(data.status === 2){
+            setAuth(true);
+        }
+        else{
+            setAuth(false);
+            setUser(false);
         }
     }
 
@@ -57,6 +68,7 @@ const App = () => {
     useEffect(()=>{
         checkSession();
         checkCookie();
+        bucket_items_count();
     })
 
     useEffect(() => {
@@ -68,39 +80,70 @@ const App = () => {
 
 
     const handleLogout = async() => {
-        const res = await fetch('/logout');
+        const res = await fetch('/user/logout');
         const data = await res.json();
         console.log(data);
         if (data.status === 1){
             setAuth(false);
+            setUser(false);
+            setItemCount(null);
+            history.push('/')
         }
     }
 
-    const handleLogin = async() => {
-            setUser(true);
-            history.push('/')
-    }
-
-
-// const bucket_items_count = () => {
-//     axios.get('')
-// }
-   
     
 
+
+
+
+const bucket_items_count = () => {
+    if (isAuth){
+        axios.post('/cart/totalItem')
+        .then(res => setItemCount(res.data.item));
+    }
+}
+   
     return (
         <>
-        <Navbar isAuth = {isAuth}/>
+        <Navbar isAuth = {isAuth} 
+                isUser = {user}
+                countItem = {itemCount}
+        />
+
         <Switch>
-            <Route exact path="/" render = {() => <Restraw isAuth = {isAuth} isCookie = {isCookie} isAddCard = {addcard}/>} />
+            <Route exact path="/" 
+                render = {() => 
+                <Restraw isAuth = {isAuth}  
+                     isuser = {user} 
+                     isCookie = {isCookie} 
+                     isAddCard = {addcard}
+                     totalItem = {bucket_items_count}/>} 
+                />
+            
             {
-             isAuth ?  <Route path="/Logout" render = {()=> <Logout handleLogout = {handleLogout}/>} /> 
-             :<Route path="/Login" render = {() => <Login handleLogin = {handleLogin} handleAuth = {handleAuth}/>}/>
+                isAuth || user ?  
+                <Route path="/Logout" 
+                    render = {()=> 
+                    <Logout handleLogout = {handleLogout}/>} 
+                /> :
+                <Route path="/Login" 
+                    render = {() => 
+                    <Login handleNormalUserLogin = {handleNormalUserLogin} 
+                        handleAdminUser = {handleAdminUser}/>}
+                />
             }
+
             <Route path="/Register" component={Register} />
             
-            <Route path = '/bucket' render = {() => <AddToCard  isCookie = {isCookie}/>} />
-            <ProtectedRoute exact path="/add" isAuth = {isAuth} component={AddFood}/>
+            <Route path = '/bucket' 
+                render = {() =>
+                <AddToCard  isCookie = {isCookie}/>}
+            />
+
+            <ProtectedRoute exact path="/add" 
+                            isAuth = {isAuth} 
+                            component={AddFood}
+            />
             
             <Route component={Error}/>
         </Switch>

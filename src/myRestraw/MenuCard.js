@@ -6,28 +6,14 @@ import { useEffect } from "react/cjs/react.development";
 import { Children } from "react";
 import Cookies from "universal-cookie/es6";
 
-const getLocalItem = () => {
-  
- 
-  let data = localStorage.getItem('cardItemId');
-  console.log(data);
 
-  if(data){
-      return JSON.parse(localStorage.getItem('cardItemId'));
-  }
-  else{
-      return [];  
-  }
-}
+const Menu = ({foodApi, isAuth, chngFood, isCookie, totalItem}) => {
 
-
-
-const Menu = ({foodApi, isAuth, chngFood, isCookie}) => {
 
   const [itemCount, setItemCount] = useState(0);
 
 
-  const [addtoCard, setAddtoCard] = useState(getLocalItem());
+  const [addtoCard, setAddtoCard] = useState([]);
 
   const [filterFood, setFilterFood] = useState([]);
   useEffect(()=>{
@@ -67,23 +53,36 @@ const Menu = ({foodApi, isAuth, chngFood, isCookie}) => {
  const cookies = new Cookies();               
 
 const AddtoCard = (id) => {
-  if (!isCookie){
-    console.log("not cookie")
-    axios.post('anuser/store', {name : "Annonimus"})
-    .then((res) => {
-      if(res){
-        cookies.set('userId', res, {path : '/'})
-      }
-    })
+  if (!isAuth){  
+    if (!isCookie){
+      console.log("not cookie")
+      axios.post('anuser/store', {name : "Annonimus"})
+      .then((res) => {
+        console.log("res", res)
+        if(res){
+          cookies.set('userId', res, {path : '/'})
+        }
+      })
+    }
+    StoreProduct(id);
+}
+
+console.log("yes i am logged in")
+axios.post('/cart/storeItem', {productId : id, quantity : 1})
+.then(res => {
+  if(res){
+    totalItem();
   }
-  StoreProduct(id);
-  }
+});
+
+}
 
 
   const StoreProduct = (id) => {
+    console.log("store product",cookies.get('userId'))
     const cookieId = cookies.get('userId');
     axios.post('cart/storeOrder', {userId : cookieId.data, productId : id, quantity : 1})
-    .then((res) => {setItemCount(itemCount + 1)})
+    .then((res) => {console.log("product added")})
   } 
   // const setCookie = () => {
   //   if (!cookies.get('userId')) {
