@@ -16,7 +16,6 @@ import { useHistory } from "react-router";
 import ProtectedRoute from './myRestraw/ProtectedRoute';
 import { useEffect } from 'react/cjs/react.development';
 import './index.css';
-import React from 'react';
 
 const App = () => {
     const [user, setUser] = useState(false);
@@ -27,9 +26,12 @@ const App = () => {
 
     const [addcard, setAddCard] = useState(false);
     let history = useHistory();
+    const cookies = new Cookies();
 
     const handleAdminUser = () => {
         setAuth(true);  
+        cookies.remove('userId');
+        bucket_items_count();
     }
 
     const handleNormalUserLogin = () => {
@@ -54,7 +56,7 @@ const App = () => {
         }
     }
 
-  const cookies = new Cookies();
+ 
 
     const checkCookie = () => {
         if (!cookies.get('userId')){
@@ -93,14 +95,18 @@ const App = () => {
 
     
 
-
-
-
+//cout the total item in cart
 const bucket_items_count = () => {
-    if (isAuth){
-        axios.post('/cart/totalItem')
+    var userid;
+    console.log("444444444",cookies.get('userId'));
+
+        if (cookies.get('userId')){
+            userid = cookies.get('userId');
+        }
+        axios.post('/cart/totalItem', {userId : userid})
         .then(res => setItemCount(res.data.item));
-    }
+    
+    // console.log("userr IIdd",cookies.get('userId').data)
 }
    
     return (
@@ -124,26 +130,24 @@ const bucket_items_count = () => {
                 isAuth || user ?  
                 <Route path="/Logout" 
                     render = {()=> 
-                    <Logout handleLogout = {handleLogout}/>} 
-                /> :
+                    <Logout handleLogout = {handleLogout}/>} /> 
+                :
                 <Route path="/Login" 
                     render = {() => 
                     <Login handleNormalUserLogin = {handleNormalUserLogin} 
-                        handleAdminUser = {handleAdminUser}/>}
-                />
+                        handleAdminUser = {handleAdminUser}/>}/>
             }
 
             <Route path="/Register" component={Register} />
             
             <Route path = '/bucket' 
                 render = {() =>
-                <AddToCard  isCookie = {isCookie}/>}
-            />
+                <AddToCard  isCookie = {isCookie}
+                            countItem = {itemCount}/>}/>
 
             <ProtectedRoute exact path="/add" 
                             isAuth = {isAuth} 
-                            component={AddFood}
-            />
+                            component={AddFood}/>
             
             <Route component={Error}/>
         </Switch>

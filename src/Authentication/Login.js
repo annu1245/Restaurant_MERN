@@ -1,6 +1,7 @@
 import { useState } from "react/cjs/react.development";
 import axios from "axios";
 import { useHistory } from "react-router";
+import Cookies from "universal-cookie/es6";
 
 const Login = ({handleNormalUserLogin, handleAdminUser}) => {
 
@@ -23,13 +24,24 @@ const Login = ({handleNormalUserLogin, handleAdminUser}) => {
         })
     }
 
+const cookies = new Cookies();
+
     const submitForm = (e) => {
         e.preventDefault();
-        const {email, password} = userData
+        var cookieId;
+
+        if(cookies.get('userId')){
+            console.log("cookie", cookies.get('userId'))
+            cookieId = cookies.get('userId');
+        }
+
+        const {email, password} = userData;
         const userInfo = {
             email,
             password,
+            cookieId,
         }
+        console.log("%%%%%%%%", cookieId);
 
         axios.post('/user/login', userInfo)
         .then((res)=>{

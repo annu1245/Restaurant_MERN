@@ -1,7 +1,7 @@
 const express = require('express');
 const userRoute = express.Router();
 const User = require('../DB/UserDB')
-
+const CartDB = require('../DB/CartDB')
 
 userRoute.get('/', (req,res)=>{
     session=req.session;
@@ -47,6 +47,7 @@ userRoute.post('/register', async(req,res) => {
 })
 
 userRoute.post('/login', (req, res) => {
+    console.log("cookiies id",req.body.cookieId);
     const email = req.body.email;
     User.findOne({email}, (err,data) => {
         if (err){console.log(err)}
@@ -56,7 +57,16 @@ userRoute.post('/login', (req, res) => {
                 console.log(usertype);
                 session = req.session;
                 session.userid = data._id;
-                console.log(req.session);
+                
+                if(req.body.cookieId){
+                    CartDB.updateMany({userID : req.body.cookieId}, {userID : data._id}, (err, update) => {
+                        if(update){
+                            console.log("update", update)
+                        }
+                    })
+                }
+                
+
                 if(usertype == 1){
                     //admin user
                     return res.send({status : 2})
