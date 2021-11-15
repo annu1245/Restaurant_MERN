@@ -31,6 +31,7 @@ route.post('/store', async(req,res)=>{
           dish_name : req.body.dish,
           category : req.body.category,
           description : req.body.description,
+          price : req.body.price,
           image_path : location
         }, 
          options, 

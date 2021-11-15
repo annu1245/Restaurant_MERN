@@ -150,15 +150,35 @@ a.active_class{
 
 .img_class{
   padding: 20px;
+  height: 100%;
 
 }
 .bucket_row{
+  position: relative;
+  display:block;
+  height: 240px;  
+}
 
-  background-color:rgb(255, 255, 255)
+.quantity_btn{
+  position: absolute;
+  bottom: 0;
+}
+.cart_delete_btn{
+  position: absolute;
+  bottom : 0;
+  right: 0;
 }
 
 .bucket_detail{
   padding: 20px;
+}
+
+.bucket_detail_row1{
+  height: 70%;
+}
+
+.bucket_detail_row2{
+  padding: 5px;
 }
 
 .span_circle{
@@ -167,9 +187,11 @@ a.active_class{
   border-radius: 80px;
   position: relative;
   top : -15px;
+  left: -15px;
   padding: 6px;
   }
 
   .navbar_spacing{
     padding : 10px;
   }
+

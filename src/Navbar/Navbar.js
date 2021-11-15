@@ -70,14 +70,16 @@ const Navbar = ({isAuth, isUser, countItem}) => {
                              activeClassName = "active_class" 
                              className = "navbar_spacing">
                             <i class="fas fa-shopping-cart"></i>
-                            {   
-                                countItem ? 
-                                    <span className = "span_circle"> 
-                                        {countItem} 
-                                    </span> 
-                                : null
-                            }
-                    </NavLink>  
+                    </NavLink> 
+                    {   
+                        countItem ? 
+                            <span className = "span_circle"> 
+                                {countItem} 
+                            </span> 
+                        : null
+                    }
+                            
+                   
                 </li>
                 </ul>
             </div>

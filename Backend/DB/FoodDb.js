@@ -18,6 +18,9 @@ const FoodSchema = new mongoose.Schema({
         type : String,
         // required : true,
     },
+    price : {
+        type : Number,
+    },
     image_path:{
         type : String,
         // default : 'images/defaultImg.jpg'

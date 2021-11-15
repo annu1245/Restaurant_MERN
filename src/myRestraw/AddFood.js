@@ -21,6 +21,7 @@ const AddFood = () =>{
         dish : "",
         category : "",
         description : "",
+        price : "",
 
     })
     const location = useLocation();
@@ -36,7 +37,7 @@ const AddFood = () =>{
 
     
     const editMenu = () => {
-        const {dishId, dish_name, description, category, image_path} = location.state;
+        const {dishId, dish_name, description, category, price, image_path} = location.state;
         setMyImg(image_path);
         setDishId(dishId);
         setData((pre)=>{
@@ -45,6 +46,7 @@ const AddFood = () =>{
                 dish : dish_name,
                 category : category,
                 description : description,
+                price : price,
             }
         })
      }
@@ -72,13 +74,14 @@ const AddFood = () =>{
     
     
     const SubmitForm = () =>{
-        const {dish, category, description} = data;
+        const {dish, category, description, price} = data;
         const formData = new FormData();
 
         formData.append('img',myimg)
         formData.append('dishId',dishid)
         formData.append('dish', dish)
         formData.append('category', category)
+        formData.append('price', price)
         formData.append('description', description)
 
          
@@ -96,7 +99,7 @@ const AddFood = () =>{
 
     return(
         <>
-        <div className="container col-md-6 mt-5">
+        <div className="container col-md-6 mt-5 bg-light">
         <form >
         <div class="mb-3">
             <label class="form-label">Name of Food : </label>
@@ -122,9 +125,18 @@ const AddFood = () =>{
                    name="description"
                    value={data.description}/>
         </div>
+        <div class="mb-3">
+            <label className = "form-label">Price : </label>
+            <input type = "number"
+                   class = "form-control"
+                   onChange = {DataEvent}
+                   name = "price"
+                   value = {data.price}/>
+        </div>
         <img src = {myimg} />
         <input type="file" 
                onChange={InputEvent}  />
+        
         <div class="d-grid mt-4">
            {
                 editMyFood ? <button onClick = {SubmitForm} class="btn btn-warning" type="button">Update</button> : <button onClick = {SubmitForm} class="btn btn-primary" type="button">Save</button>

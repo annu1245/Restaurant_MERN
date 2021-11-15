@@ -116,8 +116,7 @@ const addProduct = (id) => {
             if(res){
               totalItem();
             }
-          })
-          
+          })   
         }
       });
     }
@@ -158,7 +157,7 @@ return(
                 <span className="card-description subtle">
                   {ele.description}
                 </span>
-                <div className="card-read">Read</div>
+                <div className="card-read">PRICE : {ele.price} Rs/-</div>
               </div>
               <img src={ele.image_path} alt="images" className="card-media" />
              { isAuth ? 
